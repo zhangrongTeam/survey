@@ -1,8 +1,8 @@
 package com.questionnaire.survey.config;
 
 public interface Wechat {
-    String APPID="wxc5b8fdbff9258be5";
-    String APPSECRET="1e6d0a9e3e99d979046bead62f874578";
+    String APPID="wx40c0a4921b72a76f";
+    String APPSECRET="acf834ae012941a16fd9c30b360cd305";
     /**
      * 消息推送微信接口
      */
