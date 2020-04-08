@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.questionnaire.survey.mapper.SurveyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.questionnaire.survey.entity.Survey">
+        <id column="id" property="id" />
+        <result column="survey_user_id" property="surveyUserId" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="project_id" property="projectId" />
+        <result column="del_flag" property="delFlag" />
+        <result column="system_type" property="systemType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, survey_user_id AS surveyUserId, create_by AS createBy, create_time AS createTime, project_id AS projectId,del_flag AS delFlag,system_type AS systemType
+    </sql>
+    <update id="deleteByProjectId">
+        update survey set del_flag = "1" and update_time = now()
+        where project_id = #{projectId}
+    </update>
+
+</mapper>

@@ -1,0 +1,81 @@
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+server:
+  port: 9079
+  compression:
+    enabled: true
+    mime-types: application/json;charset=UTF-8
+  tomcat:
+    basedir: /tmp/tomcat
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    id-type: 3
+    field-strategy: 2
+    db-column-underline: true
+    refresh-mapper: true
+    logic-delete-value: 1
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+    ## dev 开发, test测试部署, pro 生产部署
+sys-config:
+  packageUrl: com.questionnaire.survey.entity
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/questionnaire_survey?serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true
+    username: root
+    password: password@R1120
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  level:
+    com.questionnaire: debug
+
+custom:
+  redis:
+    hostname: localhost
+    password:
+    port: 6379
+    maxTotal: 10
+    minIdle: 1
+    testOnBorrow: true
+    maxWait: 5000
+    testOnReturn: true
+    testWhileIdle: true
+
+
+---
+#spring:
+#  profiles: pro
+#  datasource:
+#    url: jdbc:mysql://${dbServer:119.3.6.223}/wpgdbtemplate?serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true
+#    username: wpg_waterdb
+#    password: wpg@2018Waterdb
+#    type: com.zaxxer.hikari.HikariDataSource
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#logging:
+#  level:
+#    com.wpg: info
+#
+#custom:
+#  redis:
+#    hostname: 122.112.210.179
+#    password:
+#    port: 6379
+#    maxTotal: 10
+#    minIdle: 1
+#    testOnBorrow: true
+#    maxWait: 5000
+#    testOnReturn: true
+#    testWhileIdle: true

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.questionnaire.survey.mapper.BuildingConstructionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.questionnaire.survey.entity.BuildingConstruction">
+        <id column="id" property="id" />
+        <result column="survey_id" property="surveyId" />
+        <result column="building_type" property="buildingType" />
+        <result column="building_name" property="buildingName" />
+        <result column="auto_building_name" property="autoBuildingName" />
+        <result column="floor_number" property="floorNumber" />
+        <result column="number_of_sinks" property="numberOfSinks" />
+        <result column="number_of_mop_pools" property="numberOfMopPools" />
+        <result column="number_of_urinal" property="numberOfUrinal" />
+        <result column="number_of_squatting_pan" property="numberOfSquattingPan" />
+        <result column="number_of_pedestal_pan" property="numberOfPedestalPan" />
+        <result column="number_of_shower_nozzle" property="numberOfShowerNozzle" />
+        <result column="number_of_drinking_water_outlet" property="numberOfDrinkingWaterOutlet" />
+        <result column="number_of_water_boiler_outlet" property="numberOfWaterBoilerOutlet" />
+        <result column="water_pipe_diameter" property="waterPipeDiameter" />
+        <result column="daily_water" property="dailyWater" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, survey_id AS surveyId, building_type AS buildingType, building_name AS buildingName, auto_building_name AS autoBuildingName, floor_number AS floorNumber, number_of_sinks AS numberOfSinks, number_of_mop_pools AS numberOfMopPools, number_of_urinal AS numberOfUrinal, number_of_squatting_pan AS numberOfSquattingPan, number_of_pedestal_pan AS numberOfPedestalPan, number_of_shower_nozzle AS numberOfShowerNozzle, number_of_drinking_water_outlet AS numberOfDrinkingWaterOutlet, number_of_water_boiler_outlet AS numberOfWaterBoilerOutlet, water_pipe_diameter AS waterPipeDiameter, daily_water AS dailyWater
+    </sql>
+    <select id="selectByProjectId" resultMap="BaseResultMap">
+        select bc.*,p.id projectId,s.create_time createTime,u.user_name surveyUserName
+        from building_construction bc
+        left join survey s on bc.survey_id = s.id
+        left join project p on s.project_id = p.id
+        left join `user` u on u.id = s.survey_user_id
+        where p.id = #{projectId} and s.del_flag = '0' and p.del_flag = '0'
+    </select>
+
+</mapper>

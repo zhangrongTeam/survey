@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.questionnaire.survey.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.questionnaire.survey.entity.User">
+        <id column="id" property="id" />
+        <result column="login_name" property="loginName" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="phone" property="phone" />
+        <result column="user_type" property="userType" />
+        <result column="login_ip" property="loginIp" />
+        <result column="login_date" property="loginDate" />
+        <result column="open_id" property="openId" />
+        <result column="union_id" property="unionId" />
+        <result column="department" property="department" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, login_name AS loginName, user_name AS userName, password, phone, user_type AS userType, login_ip AS loginIp, login_date AS loginDate, open_id AS openId, union_id AS unionId,department AS department
+    </sql>
+    <select id="queryUser" resultMap="BaseResultMap">
+        select *
+        from user
+        where user_type = "0"
+        <if test="loginUser.loginName != null">
+            and login_name = #{loginUser.loginName,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+</mapper>

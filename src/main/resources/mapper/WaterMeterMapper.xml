@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.questionnaire.survey.mapper.WaterMeterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.questionnaire.survey.entity.WaterMeter">
+        <id column="id" property="id" />
+        <result column="survey_id" property="surveyId" />
+        <result column="water_meter_category" property="waterMeterCategory" />
+        <result column="water_meter_caliber" property="waterMeterCaliber" />
+        <result column="water_meter_material" property="waterMeterMaterial" />
+        <result column="can_i_upload_data" property="canIUploadData" />
+        <result column="water_meter_location" property="waterMeterLocation" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, survey_id AS surveyId, water_meter_category AS waterMeterCategory, water_meter_caliber AS waterMeterCaliber, water_meter_material AS waterMeterMaterial, can_i_upload_data AS canIUploadData, water_meter_location AS waterMeterLocation
+    </sql>
+    <select id="selectByProjectId" resultMap="BaseResultMap">
+        select wm.*,p.id projectId,s.create_time createTime,u.user_name surveyUserName
+        from water_meter wm
+        left join survey s on wm.survey_id = s.id
+        left join project p on s.project_id = p.id
+        left join `user` u on u.id = s.survey_user_id
+        where p.id = #{projectId} and s.del_flag = '0' and p.del_flag = '0'
+    </select>
+
+</mapper>

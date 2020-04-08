@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.questionnaire.survey.mapper.WaterSupplyNetworkMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.questionnaire.survey.entity.WaterSupplyNetwork">
+        <id column="id" property="id" />
+        <result column="survey_id" property="surveyId" />
+        <result column="line_material" property="lineMaterial" />
+        <result column="line_caliber" property="lineCaliber" />
+        <result column="line_location" property="lineLocation" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, survey_id AS surveyId, line_material AS lineMaterial, line_caliber AS lineCaliber,line_location AS lineLocation
+    </sql>
+    <select id="selectByProjectId" resultMap="BaseResultMap">
+        select wsn.*,p.id projectId,s.create_time createTime,u.user_name surveyUserName
+        from water_supply_network wsn
+        left join survey s on wsn.survey_id = s.id
+        left join project p on s.project_id = p.id
+        left join `user` u on u.id = s.survey_user_id
+        where p.id = #{projectId} and s.del_flag = '0' and p.del_flag = '0'
+    </select>
+
+</mapper>

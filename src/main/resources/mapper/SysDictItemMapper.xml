@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.questionnaire.survey.mapper.SysDictItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.questionnaire.survey.entity.SysDictItem">
+        <id column="id" property="id" />
+        <result column="dict_type_id" property="dictTypeId" />
+        <result column="value" property="value" />
+        <result column="label" property="label" />
+        <result column="sort" property="sort" />
+        <result column="remarks" property="remarks" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dict_type_id AS dictTypeId, value, label, sort, remarks, del_flag AS delFlag
+    </sql>
+    <update id="deleteDicItemtByType">
+        update  sys_dict_item
+        set del_flag = "1"
+        where dict_type_id = #{id}
+    </update>
+    <select id="selectSysDictItemList" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        sys_dict_item
+        where dict_type_id=#{sysDictId}
+        ORDER BY sort
+    </select>
+    <select id="getDictsByTypeCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        t.*
+        FROM
+        sys_dict_item t
+        JOIN sys_dict_type dt ON dt.id = t.dict_type_id
+        WHERE
+        dt.dict_type_code = #{typeCode} and t.del_flag = '0'
+        order by t.sort
+    </select>
+
+</mapper>
