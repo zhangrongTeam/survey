@@ -126,6 +126,7 @@ public class JwtUtil {
      * @return true如果当前传参的用户是超级管理员，false则当前传参的用户不是超级管理员
      */
     public static Boolean isSuperUser(User user) {
+        System.out.println(user.getUserType());
         return user != null && UserType.SUPER.getTypeCode().equals(user.getUserType());
     }
 

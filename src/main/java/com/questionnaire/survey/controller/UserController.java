@@ -18,7 +18,6 @@ import static com.questionnaire.survey.utils.BeanUtil.copy;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.OK;
@@ -41,10 +40,10 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation("管理后台用户登录")
-    @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
     public RestResult<User> login(@Valid @RequestBody LoginDTO loginUser) {
         return userService.loginWeb(copy(loginUser, User.class));
     }
+
 
     @PostMapping("/logout")
     @ApiOperation("管理后台用户登出")
@@ -57,10 +56,10 @@ public class UserController {
         return userService.logout(sessionId);
     }
 
-    @GetMapping(path = "/wxAuthorize/{code}", consumes = APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/wxAuthorize", consumes = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("微信授权")
-    public ResponseEntity<RestResult<User>> wxAuthorize(@Valid @NotBlank @PathVariable("code") String code) {
-        return new ResponseEntity<>(userService.wxAuthorize(code), OK);
+    public ResponseEntity<RestResult<User>> wxAuthorize(@RequestBody User user) {
+        return new ResponseEntity<>(userService.wxAuthorize(user.getCode()), OK);
     }
 
     @PostMapping(path = "/registered", consumes = APPLICATION_JSON_UTF8_VALUE)
@@ -69,10 +68,10 @@ public class UserController {
         return new ResponseEntity<>(userService.registered(wxUser), OK);
     }
 
-    @PostMapping(path = "/getUserDetail/{openId}", consumes = APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/getUserDetail", consumes = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("微信用户信息详情查询")
-    public ResponseEntity<RestResult<User>> getUserDetail(@Valid @NotBlank String openId) {
-        return new ResponseEntity<>(userService.getUserDetail(openId), OK);
+    public ResponseEntity<RestResult<User>> getUserDetail(@RequestBody User user) {
+        return new ResponseEntity<>(userService.getUserDetail(user.getOpenId()), OK);
     }
 
     @PostMapping("addManager")

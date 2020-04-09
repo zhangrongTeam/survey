@@ -8,11 +8,14 @@ import com.questionnaire.survey.utils.RestResult;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.OK;
 
 /**
  * <p>
@@ -41,6 +44,14 @@ public class ProjectController {
     @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
     public RestResult<String> addProject(@RequestBody Project project){
         return projectService.addProject(project);
+    }
+
+
+    @PostMapping("/login")
+    @ApiOperation("返回项目状态——是否存在正在进行项目")
+    @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
+    public ResponseEntity<RestResult<Void>> getProjectStatus() {
+        return new ResponseEntity<>(projectService.getProjectStatus(),OK);
     }
 
     @PostMapping("/endProject/{projectId}")

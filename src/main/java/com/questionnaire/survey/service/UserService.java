@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.questionnaire.survey.config.Wechat;
 import com.questionnaire.survey.constant.Constant;
 import com.questionnaire.survey.constant.ErrorCode;
+import com.questionnaire.survey.constant.ProjectStatus;
 import com.questionnaire.survey.constant.UserType;
+import com.questionnaire.survey.entity.Project;
 import com.questionnaire.survey.entity.SysDictItem;
 import com.questionnaire.survey.entity.User;
 import com.questionnaire.survey.interceptor.JwtInterceptor;
@@ -147,4 +149,5 @@ public class UserService extends ServiceImpl<UserMapper, User>{
         stringRedisTemplate.delete(rawRedisUserLoginKey);
         return success(null);
     }
+
 }

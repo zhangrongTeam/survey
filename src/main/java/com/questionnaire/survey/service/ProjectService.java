@@ -1,5 +1,6 @@
 package com.questionnaire.survey.service;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.questionnaire.survey.constant.ErrorCode;
 import com.questionnaire.survey.constant.ProjectStatus;
 import com.questionnaire.survey.entity.Project;
@@ -36,9 +37,9 @@ public class ProjectService extends ServiceImpl<ProjectMapper, Project> {
 
     //查询未删除项目列表（仅限管理员）
     public RestResult<List<Project>> getProjectList() {
-        if(!JwtUtil.isSuperUser()){
-            return RestResult.fail(ErrorCode.USER_NOT_ENABLE);
-        }
+//        if(!JwtUtil.isSuperUser()){
+//            return RestResult.fail(ErrorCode.USER_NOT_ENABLE);
+//        }
         List<Project> projectList = projectMapper.getProjectList();
         return RestResult.success(projectList);
     }
@@ -84,13 +85,17 @@ public class ProjectService extends ServiceImpl<ProjectMapper, Project> {
             return RestResult.fail(ErrorCode.STARTING_PROJECT_CANNOT_DELETE);
         }
         project.setDelFlag(true).setUpdateTime(LocalDateTime.now());
-        if(project.updateById()){
-            //如果项目更新成功且调研单删除标志更新成功
-            if(surveyService.deleteByProjectId(projectId)<=0){
-                return RestResult.fail(ErrorCode.CRUD_UPDATE_NO_RECORD);
-            }
-            return RestResult.success(null);
+        project.updateById();
+        surveyService.deleteByProjectId(projectId);
+        return RestResult.success(null);
+    }
+
+    public RestResult<Void> getProjectStatus() {
+        Project project = new Project().setProjectStatus(ProjectStatus.PROJECT_STARTING.getTypeCode()).setDelFlag(false);
+        List<Project> projectList = selectList(new EntityWrapper<>(project));
+        if(projectList.size()<=0){
+            return RestResult.fail(ErrorCode.LIST_EMPTY);
         }
-        return RestResult.fail(ErrorCode.CRUD_UPDATE_NO_RECORD);
+        return RestResult.success(null);
     }
 }

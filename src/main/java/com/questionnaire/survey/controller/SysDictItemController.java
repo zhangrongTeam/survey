@@ -1,6 +1,7 @@
 package com.questionnaire.survey.controller;
 
 
+import com.questionnaire.survey.DTO.CodeListDTO;
 import com.questionnaire.survey.DTO.SysDictItemDTO;
 import com.questionnaire.survey.entity.SysDictItem;
 import com.questionnaire.survey.service.SysDictItemService;
@@ -8,6 +9,8 @@ import com.questionnaire.survey.utils.RestResult;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -35,8 +38,8 @@ public class SysDictItemController {
     @PostMapping("/getMapByTypeCodeList")
     @ApiOperation("根据typeCodeList获取字典Map")
     @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
-    public RestResult<Map<String, List<SysDictItem>>> getMapByTypeCodeList(@RequestBody List<String> typeCodeList){
-        return sysDictItemService.getMapByTypeCodeList(typeCodeList);
+    public ResponseEntity<RestResult<Map<String, List<SysDictItem>>>> getMapByTypeCodeList(@RequestBody CodeListDTO codeListDTO){
+        return new ResponseEntity<>( sysDictItemService.getMapByTypeCodeList(codeListDTO.getTypeCodeList()), HttpStatus.OK);
     }
 
     @PostMapping("/addSysDictItem")
@@ -53,7 +56,7 @@ public class SysDictItemController {
         return sysDictItemService.removeSysDictItem(id);
     }
 
-    @PutMapping("/editSysDictItem/{id}")
+    @PostMapping("/editSysDictItem")
     @ApiOperation("修改字典")
     @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
     public RestResult<Void> editSysDictItem(@Valid @RequestBody SysDictItemDTO sysDictItemDTO) {
