@@ -77,7 +77,6 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 
         stringRedisTemplate.boundValueOps(rawRedisUserLoginKey)
                 .expire(SESSION_EXPIRED_TIME, TimeUnit.MINUTES);
-
         request.setAttribute("user", user);
 
         return true;

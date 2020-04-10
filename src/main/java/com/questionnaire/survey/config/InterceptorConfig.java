@@ -28,6 +28,12 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/survey/user/login")
                 .excludePathPatterns("/survey/user/wxlogin")
                 .excludePathPatterns("/survey/user/addManager")
+                .excludePathPatterns("/survey/user/wxAuthorize")
+                .excludePathPatterns("/survey/user/registered")
+                .excludePathPatterns("/survey/user/getUserDetail")
+                .excludePathPatterns("/survey/survey/submitSurvey")
+                .excludePathPatterns("/survey/project/getProjectStatus")
+                .excludePathPatterns("/survey/sysDictItem/getMapByTypeCodeList")
                 .excludePathPatterns("/upload")
                 .excludePathPatterns("/exportExcel/getExcel/*")
                 .excludePathPatterns("/templateFile/*");

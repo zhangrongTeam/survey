@@ -46,12 +46,12 @@ public class SysDictTypeController {
     @DeleteMapping("/removeSysDictType/{id}")
     @ApiOperation("删除字典类型")
     @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
-    public RestResult<Void> removeSysDictType(@PathVariable @Valid @NotBlank String id) {
+    public RestResult<Void> removeSysDictType(@PathVariable("id") @Valid @NotBlank String id) {
         return sysDictTypeService.removeSysDictType(id);
     }
 
     //@Valid注解是只让类中的校验生效
-    @PutMapping("/editSysDictType/{id}")
+    @PostMapping("/editSysDictType")
     @ApiOperation("修改字典类型")
     @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
     public RestResult<Void> editSysDictType(@Valid @RequestBody SysDictTypeDTO sysDictType) {

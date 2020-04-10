@@ -69,6 +69,8 @@ public enum ErrorCode {
      */
     CRUD_UPDATE_NO_RECORD("update_no_record", "更新操作失败"),
 
+    NOT_EXIST_STARTING_PROJECT("not_exist_starting_project", "当前没有进行中的项目"),
+
     END_STARTING_PROJECT("end_starting_project", "请先结束进行中的项目，才可开启新项目"),
 
     STARTING_PROJECT_CANNOT_DELETE("starting_project_cannot_delete","进行中的项目不允许删除，请先结束项目"),

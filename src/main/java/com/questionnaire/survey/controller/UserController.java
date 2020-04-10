@@ -64,7 +64,7 @@ public class UserController {
 
     @PostMapping(path = "/registered", consumes = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("微信用户信息注册")
-    public ResponseEntity<RestResult<User>> registered(@Valid @RequestBody User wxUser) {
+    public ResponseEntity<RestResult<User>> registered(@RequestBody User wxUser) {
         return new ResponseEntity<>(userService.registered(wxUser), OK);
     }
 

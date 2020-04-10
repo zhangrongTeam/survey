@@ -1,6 +1,7 @@
 package com.questionnaire.survey.service;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.questionnaire.survey.DTO.ProjectStatusDTO;
 import com.questionnaire.survey.constant.ErrorCode;
 import com.questionnaire.survey.constant.ProjectStatus;
 import com.questionnaire.survey.entity.Project;
@@ -37,9 +38,9 @@ public class ProjectService extends ServiceImpl<ProjectMapper, Project> {
 
     //查询未删除项目列表（仅限管理员）
     public RestResult<List<Project>> getProjectList() {
-//        if(!JwtUtil.isSuperUser()){
-//            return RestResult.fail(ErrorCode.USER_NOT_ENABLE);
-//        }
+        if(!JwtUtil.isSuperUser()){
+            return RestResult.fail(ErrorCode.USER_NOT_ENABLE);
+        }
         List<Project> projectList = projectMapper.getProjectList();
         return RestResult.success(projectList);
     }
@@ -60,17 +61,25 @@ public class ProjectService extends ServiceImpl<ProjectMapper, Project> {
         return RestResult.fail(ErrorCode.CRUD_UPDATE_NO_RECORD);
     }
 
-    //终止项目，之后的每次调研单都将新增给最新项目id
-    public RestResult<Void> endProject(String projectId) {
-        if(isBlank(projectId)){
+    //更新项目状态，之后的每次调研单都将新增给最新项目id
+    @Transactional
+    public RestResult<Void> changeProjectStatus(ProjectStatusDTO projectStatusDTO) {
+        if(isBlank(projectStatusDTO.getProjectId())||isBlank(projectStatusDTO.getChangeToStatus())){
             return RestResult.fail(ErrorCode.EXCEPTION_ILLEGAL_ARGUMENT);
         }
-        Project project = new Project().selectById(projectId);
-        project.setProjectStatus(ProjectStatus.PROJECT_END.getTypeCode()).setUpdateTime(LocalDateTime.now());
-        if(project.updateById()){
-            return RestResult.success(null);
+        Project project = new Project().selectById(projectStatusDTO.getProjectId());
+        if(projectStatusDTO.getChangeToStatus().equals(ProjectStatus.PROJECT_STARTING.getTypeCode())){
+            //如果是开启当前项目
+            //停止其他
+            projectMapper.endOtherProject(projectStatusDTO.getProjectId());
+            //当前项目设为启动
+            project.setProjectStatus(ProjectStatus.PROJECT_STARTING.getTypeCode()).setUpdateTime(LocalDateTime.now());
+            //项目启动不需要设置调研单状态，因为调研单只有在项目删除时才更新删除flag
+        }else {
+            project.setProjectStatus(ProjectStatus.PROJECT_END.getTypeCode()).setUpdateTime(LocalDateTime.now());
         }
-        return RestResult.fail(ErrorCode.CRUD_UPDATE_NO_RECORD);
+        project.updateById();
+        return RestResult.success(null);
     }
 
     //删除项目

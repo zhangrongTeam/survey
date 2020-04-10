@@ -26,5 +26,8 @@
         from project
         where project_status != '2'
     </select>
+    <update id="endOtherProject">
+        update project set project_status = '2' where id !=#{projectId}
+    </update>
 
 </mapper>

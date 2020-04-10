@@ -73,7 +73,8 @@ public class UserService extends ServiceImpl<UserMapper, User>{
         wxUser.setUserType(UserType.USER.getTypeCode());
         User wx = userMapper.selectOne(new User().setOpenId(openid));
         if (wx == null) {
-            wx.insert();
+            wxUser.insert();
+            return success(wxUser);
         }
         return success(wx);
     }
@@ -101,11 +102,11 @@ public class UserService extends ServiceImpl<UserMapper, User>{
             return fail(ErrorCode.USER_LACK_OF_RIGHT);
         }
         // 用户登录redis key标志
-        String redisUserLoginKey = String.format(Constant.SYS_USER_REDIS_PREFIX_FORMAT_KEY, loginUser.getLoginName(), UUID.randomUUID().toString());
+        String redisUserLoginKey = String.format(Constant.SYS_USER_REDIS_PREFIX_FORMAT_KEY, user.getLoginName(), UUID.randomUUID().toString());
         // 取消单点登录，使用经过Base64加密的字符串作为session
         user.setToken(encode(redisUserLoginKey));
         //设置redis超时时间
-        stringRedisTemplate.boundValueOps(redisUserLoginKey).set(JwtUtil.encodeCustom(loginUser), JwtInterceptor.SESSION_EXPIRED_TIME, TimeUnit.MINUTES);
+        stringRedisTemplate.boundValueOps(redisUserLoginKey).set(JwtUtil.encodeCustom(user), JwtInterceptor.SESSION_EXPIRED_TIME, TimeUnit.MINUTES);
         return success(user);
     }
 

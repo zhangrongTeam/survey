@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.questionnaire.survey.utils.RestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,20 +42,19 @@ public class SysDictTypeService extends ServiceImpl<SysDictTypeMapper, SysDictTy
     }
 
     //删除数据字典类型及其字典项目
+    @Transactional
     public RestResult<Void> removeSysDictType(String id) {
         SysDictType sysDictType = new SysDictType().selectById(id);
         sysDictType.setDelFlag(true);
         if(!sysDictType.updateById()){
             return fail(ErrorCode.CRUD_UPDATE_NO_RECORD);
         }
-        if(sysDictItemMapper.deleteDicItemtByType(id)<=0){
-            return fail(ErrorCode.CRUD_UPDATE_NO_RECORD);
-        }
+        sysDictItemMapper.deleteDicItemtByType(id);
         return success(null);
     }
 
     public RestResult<Void> editSysDictType(SysDictType sysDictType) {
-        if(sysDictTypeMapper.updateById(sysDictType)<=0){
+        if(sysDictTypeMapper.updateById(sysDictType)<0){
             return fail(ErrorCode.CRUD_UPDATE_NO_RECORD);
         }
         return success(null);

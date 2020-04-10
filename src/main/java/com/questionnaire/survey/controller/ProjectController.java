@@ -1,6 +1,7 @@
 package com.questionnaire.survey.controller;
 
 
+import com.questionnaire.survey.DTO.ProjectStatusDTO;
 import com.questionnaire.survey.entity.Project;
 import com.questionnaire.survey.entity.User;
 import com.questionnaire.survey.service.ProjectService;
@@ -47,22 +48,22 @@ public class ProjectController {
     }
 
 
-    @PostMapping("/login")
+    @PostMapping("/getProjectStatus")
     @ApiOperation("返回项目状态——是否存在正在进行项目")
     @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
     public ResponseEntity<RestResult<Void>> getProjectStatus() {
         return new ResponseEntity<>(projectService.getProjectStatus(),OK);
     }
 
-    @PostMapping("/endProject/{projectId}")
+    @PostMapping("/changeProjectStatus")
     @ApiOperation("更新项目状态")
     @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
-    public RestResult<Void> endProject(@PathVariable("projectId") String projectId){
-        return projectService.endProject(projectId);
+    public RestResult<Void> changeProjectStatus(@RequestBody ProjectStatusDTO projectStatusDTO){
+        return projectService.changeProjectStatus(projectStatusDTO);
     }
 
-    @PostMapping("/deleteProject/{projectId}")
-    @ApiOperation("删除项目（删除项目时将删除所有调研单数据）")
+    @GetMapping("/deleteProject/{projectId}")
+    @ApiOperation("删除项目（删除项目时将逻辑删除所有调研单数据）")
     @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
     public RestResult<String> deleteProject(@PathVariable("projectId") String projectId){
         return projectService.deleteProject(projectId);

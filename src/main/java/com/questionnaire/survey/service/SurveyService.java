@@ -125,15 +125,16 @@ public class SurveyService extends ServiceImpl<SurveyMapper, Survey> {
     //调研单提交
     @Transactional
     public RestResult<Boolean> submitSurvey(AddSurveyDTO addSurveyDTO) throws Exception{
-        Class<?> toClz = (Class<?>)Class.forName(packageUrl + lineToHump(addSurveyDTO.getSystemType()));
+        Class<?> toClz = (Class<?>)Class.forName(packageUrl +"."+ lineToHump(addSurveyDTO.getSystemType()));
         User currentUser = getCurrentUser();
         LocalDateTime now = LocalDateTime.now();
-        Survey survey = addSurveyDTO.getSurvey();
-        if(isBlank(survey.getProjectId())){
-            //如果未传入项目id，则取最新的项目id set
-            String startingProjectId = projectMapper.getStartingProjectId();
-            survey.setProjectId(startingProjectId);
+        //取最新的项目id set
+        String startingProjectId = projectMapper.getStartingProjectId();
+        if(isBlank(startingProjectId)){
+            return RestResult.fail(ErrorCode.NOT_EXIST_STARTING_PROJECT);
         }
+        Survey survey = new Survey();
+        survey.setProjectId(startingProjectId);
         survey.setCreateBy(currentUser.getId()).setSurveyUserId(currentUser.getId()).setCreateTime(now).setDelFlag(false);
         survey.insert();
         if(("building_construction").equals(addSurveyDTO.getSystemType())){
