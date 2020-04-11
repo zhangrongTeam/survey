@@ -68,10 +68,13 @@ public class UserService extends ServiceImpl<UserMapper, User>{
         JSONObject userInfo = WechatUtils.getUserInfo(Wechat.APPID, Wechat.APPSECRET, code);
         String openid = userInfo.getString("openid");
         String unionid = userInfo.getString("unionid");
+        if(isBlank(openid)){
+            return fail(OPENID_NOT_EXIST);
+        }
         wxUser.setOpenId(openid);
         wxUser.setUnionId(unionid);
         wxUser.setUserType(UserType.USER.getTypeCode());
-        User wx = userMapper.selectOne(new User().setOpenId(openid));
+        User wx = userMapper.selectOneByOpenId(openid);
         if (wx == null) {
             wxUser.insert();
             return success(wxUser);

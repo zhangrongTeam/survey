@@ -21,8 +21,6 @@ import java.io.Serializable;
 @Data
 public class SysDictItem extends Model<SysDictItem> {
 
-    private static final long serialVersionUID = 1L;
-
     /**
      * id
      */

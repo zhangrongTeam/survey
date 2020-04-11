@@ -12,6 +12,8 @@ import javax.validation.constraints.NotBlank;
 public class AddSurveyDTO {
     @NotBlank
     private String systemType;
+    private String userId;
+    private String openId;
     private BuildingConstruction buildingConstruction;
     private WaterMeter waterMeter;
     private WaterSupplyNetwork waterSupplyNetwork;

@@ -23,8 +23,6 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Survey extends Model<Survey> {
 
-    private static final long serialVersionUID = 1L;
-
     /**
      * id
      */

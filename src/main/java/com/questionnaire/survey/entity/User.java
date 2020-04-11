@@ -28,8 +28,6 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class User extends Model<User> {
 
-    private static final long serialVersionUID = 1L;
-
     /**
      * id
      */

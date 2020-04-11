@@ -19,4 +19,6 @@ import org.springframework.stereotype.Repository;
 public interface UserMapper extends BaseMapper<User> {
 
     User queryUser(@Param("loginUser") User loginUser);
+
+    User selectOneByOpenId(@Param("openid") String openid);
 }

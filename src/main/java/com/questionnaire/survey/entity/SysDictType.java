@@ -21,8 +21,6 @@ import java.io.Serializable;
 @TableName("sys_dict_type")
 public class SysDictType extends Model<SysDictType> {
 
-    private static final long serialVersionUID = 1L;
-
     /**
      * id
      */

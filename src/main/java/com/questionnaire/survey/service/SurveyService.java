@@ -7,16 +7,12 @@ import com.questionnaire.survey.mapper.ProjectMapper;
 import com.questionnaire.survey.mapper.SurveyMapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.questionnaire.survey.utils.RestResult;
-import org.apache.ibatis.reflection.invoker.Invoker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.questionnaire.survey.utils.JwtUtil.getCurrentUser;
+import static com.questionnaire.survey.utils.BeanUtil.copy;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
@@ -100,33 +96,41 @@ public class SurveyService extends ServiceImpl<SurveyMapper, Survey> {
 //    }
 
     //将来源对象中的所有属性值set到目标对象中并返回目标对象
-    public Object getSetInsert(Class<?> fromClass,Class<?> toClass) throws Exception {
-        //得到当前类的反射对象
-        Reflector currentReflector = reflectors.get(toClass);
-        if(currentReflector == null){
-            Reflector reflector = new Reflector(toClass);
-            reflectors.put(toClass,reflector);
-            currentReflector = reflector;
-        }
-        //循环传入的类的属性字段
-        for(Field fromClassField : fromClass.getDeclaredFields()){
-            //根据字段名得到当前类当前属性的反射对象
-            Invoker setFieldToClass = currentReflector.getSetInvoker(fromClassField.getName());
-            Invoker getFieldFromClass = currentReflector.getGetInvoker(fromClassField.getName());
-            //得到当前get方法
-            String  getMethodsName = currentReflector.getClassMethodByFieldName(fromClassField.getName(),"get");
-            Method  getMethod = getFieldFromClass.getType().getMethod(getMethodsName);
-            //将从来源类得到的属性set到目标类相应属性中
-            Object invoke = setFieldToClass.invoke(toClass, (Object[]) getMethod.invoke(fromClass));
-        }
-        return toClass;
-    }
+//    public Class<?> getSetInsert(Class<?> fromClass,Class<?> toClass) throws Exception {
+//        //得到当前类的反射对象
+//        Reflector currentReflector = reflectors.get(toClass);
+//        if(currentReflector == null){
+//            Reflector reflector = new Reflector(toClass);
+//            reflectors.put(toClass,reflector);
+//            currentReflector = reflector;
+//        }
+//        //循环传入的类的属性字段
+//        for(Field fromClassField : fromClass.getDeclaredFields()){
+//                    //根据字段名得到当前类当前属性的反射对象
+//                    Invoker setFieldToClass = currentReflector.getSetInvoker(fromClassField.getName());
+//                    Invoker getFieldFromClass = currentReflector.getGetInvoker(fromClassField.getName());
+//                    //得到当前get方法
+//                    String  getMethodsName = currentReflector.getClassMethodByFieldName(fromClassField.getName(),"get");
+//
+//            Method  getMethod = null;
+//            try {
+//                getMethod = fromClass.getMethod(getMethodsName);
+//            } catch (NoSuchMethodException e) {
+//                continue;
+//            }
+//            if( getMethod.invoke(fromClass.newInstance()) != null){
+//                //将从来源类得到的属性set到目标类相应属性中
+//                 Object invoke = setFieldToClass.invoke(toClass.newInstance(), (Object[]) getMethod.invoke(fromClass));
+//
+//            }
+//        }
+//        return toClass;
+//    }
 
     //调研单提交
     @Transactional
     public RestResult<Boolean> submitSurvey(AddSurveyDTO addSurveyDTO) throws Exception{
-        Class<?> toClz = (Class<?>)Class.forName(packageUrl +"."+ lineToHump(addSurveyDTO.getSystemType()));
-        User currentUser = getCurrentUser();
+//        Class<?> toClz = (Class<?>)Class.forName(packageUrl +"."+ lineToHump(addSurveyDTO.getSystemType()));
         LocalDateTime now = LocalDateTime.now();
         //取最新的项目id set
         String startingProjectId = projectMapper.getStartingProjectId();
@@ -135,23 +139,20 @@ public class SurveyService extends ServiceImpl<SurveyMapper, Survey> {
         }
         Survey survey = new Survey();
         survey.setProjectId(startingProjectId);
-        survey.setCreateBy(currentUser.getId()).setSurveyUserId(currentUser.getId()).setCreateTime(now).setDelFlag(false);
+        survey.setCreateBy(addSurveyDTO.getUserId()).setSurveyUserId(addSurveyDTO.getUserId()).setCreateTime(now).setDelFlag(false);
         survey.insert();
         if(("building_construction").equals(addSurveyDTO.getSystemType())){
             BuildingConstruction buildingConstruction = addSurveyDTO.getBuildingConstruction();
             buildingConstruction.setSurveyId(survey.getId());
-            Object object = getSetInsert(buildingConstruction.getClass(), toClz);
-            buildingConstructionService.insert((BuildingConstruction) object);
+            buildingConstruction.insert();
         }else if(("water_supply_network").equals(addSurveyDTO.getSystemType())){
             WaterSupplyNetwork waterSupplyNetwork = addSurveyDTO.getWaterSupplyNetwork();
             waterSupplyNetwork.setSurveyId(survey.getId());
-            Object object = getSetInsert(waterSupplyNetwork.getClass(), toClz);
-            waterSupplyNetworkService.insert((WaterSupplyNetwork) object);
+            waterSupplyNetwork.insert();
         }else if (("water_meter").equals(addSurveyDTO.getSystemType())){
             WaterMeter waterMeter = addSurveyDTO.getWaterMeter();
             waterMeter.setSurveyId(survey.getId());
-            Object object = getSetInsert(waterMeter.getClass(), toClz);
-            waterMeterService.insert((WaterMeter) object);
+            waterMeter.insert();
         }else {
             return RestResult.fail(ErrorCode.EXCEPTION_ILLEGAL_ARGUMENT);
         }

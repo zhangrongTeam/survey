@@ -17,8 +17,6 @@ import java.io.Serializable;
 @ApiModel(description = "用户登录请求参数")
 public class LoginDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @ApiModelProperty("账号")
     @NotNull(message = "账号不能为空")
     @Size(min = 3, max = 20, message = "账号必须在3到20位字符之间")

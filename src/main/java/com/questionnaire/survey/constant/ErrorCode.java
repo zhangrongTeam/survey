@@ -43,6 +43,8 @@ public enum ErrorCode {
      */
     USER_NOT_EXIST("user_not_exist", "用户不存在"),
 
+    OPENID_NOT_EXIST("openId_not_exist", "openId获取失败"),
+
     /**
      * 用户被禁止登陆
      */

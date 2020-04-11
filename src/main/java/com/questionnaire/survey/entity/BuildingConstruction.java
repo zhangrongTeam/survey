@@ -23,8 +23,6 @@ import lombok.Data;
 @Data
 public class BuildingConstruction extends Model<BuildingConstruction> {
 
-    private static final long serialVersionUID = 1L;
-
     private Long id;
     @TableField("survey_id")
     private String surveyId;

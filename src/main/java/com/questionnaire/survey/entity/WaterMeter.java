@@ -24,8 +24,6 @@ import java.time.LocalDateTime;
 @Data
 public class WaterMeter extends Model<WaterMeter> {
 
-    private static final long serialVersionUID = 1L;
-
     @TableId
     private Long id;
     @TableField("survey_id")
