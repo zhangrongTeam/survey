@@ -20,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.questionnaire.survey.utils.BeanUtil.copy;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
@@ -129,7 +128,7 @@ public class SurveyService extends ServiceImpl<SurveyMapper, Survey> {
 
     //调研单提交
     @Transactional
-    public RestResult<Boolean> submitSurvey(AddSurveyDTO addSurveyDTO) throws Exception{
+    public RestResult<Boolean> submitSurvey(AddSurveyDTO addSurveyDTO){
 //        Class<?> toClz = (Class<?>)Class.forName(packageUrl +"."+ lineToHump(addSurveyDTO.getSystemType()));
         LocalDateTime now = LocalDateTime.now();
         //取最新的项目id set
@@ -146,7 +145,7 @@ public class SurveyService extends ServiceImpl<SurveyMapper, Survey> {
             buildingConstruction.setSurveyId(survey.getId());
             buildingConstruction.insert();
         }else if(("water_supply_network").equals(addSurveyDTO.getSystemType())){
-            WaterSupplyNetwork waterSupplyNetwork = addSurveyDTO.getWaterSupplyNetwork();
+            WaterSupplyNetwork waterSupplyNetwork =  addSurveyDTO.getWaterSupplyNetwork();
             waterSupplyNetwork.setSurveyId(survey.getId());
             waterSupplyNetwork.insert();
         }else if (("water_meter").equals(addSurveyDTO.getSystemType())){

@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 public class WaterMeter extends Model<WaterMeter> {
 
     @TableId
-    private Long id;
+    private int id;
     @TableField("survey_id")
     private String surveyId;
     /**

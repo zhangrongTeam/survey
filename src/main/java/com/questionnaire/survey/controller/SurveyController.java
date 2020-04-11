@@ -38,7 +38,7 @@ public class SurveyController {
     //调研单填写提交（微信）
     @PostMapping(path = "/submitSurvey", consumes = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("保存调研单")
-    public ResponseEntity<RestResult<Boolean>> submitSurvey(@Valid @RequestBody AddSurveyDTO addSurveyDTO) throws Exception {
+    public ResponseEntity<RestResult<Boolean>> submitSurvey(@Valid @RequestBody AddSurveyDTO addSurveyDTO){
         return new ResponseEntity<>(surveyService.submitSurvey(addSurveyDTO), HttpStatus.OK);
     }
     //分类别 调研单列表查询（管理后台）根据项目id得到全部调研单列表并分类返回

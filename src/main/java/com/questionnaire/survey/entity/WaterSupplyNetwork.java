@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,9 +23,10 @@ import java.time.LocalDateTime;
  */
 @TableName("water_supply_network")
 @Data
+@Accessors(chain = true)
 public class WaterSupplyNetwork extends Model<WaterSupplyNetwork> {
     @TableId
-    private Long id;
+    private int id;
     @TableField("survey_id")
     private String surveyId;
     /**
@@ -52,10 +54,6 @@ public class WaterSupplyNetwork extends Model<WaterSupplyNetwork> {
     private String systemType;
 
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 
     @Override
     public String toString() {
@@ -65,5 +63,10 @@ public class WaterSupplyNetwork extends Model<WaterSupplyNetwork> {
         ", lineMaterial=" + lineMaterial +
         ", lineCaliber=" + lineCaliber +
         "}";
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
     }
 }

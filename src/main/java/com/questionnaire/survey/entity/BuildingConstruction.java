@@ -23,7 +23,8 @@ import lombok.Data;
 @Data
 public class BuildingConstruction extends Model<BuildingConstruction> {
 
-    private Long id;
+    @TableId
+    private int id;
     @TableField("survey_id")
     private String surveyId;
     /**
