@@ -82,7 +82,7 @@ public class UserService extends ServiceImpl<UserMapper, User>{
     public RestResult<User> getUserDetail(String openId) {
         User wx = userMapper.selectOne(new User().setOpenId(openId));
         if (wx == null) {
-            wx.insert();
+           return fail(USER_NOT_EXIST);
         }
         return success(wx);
     }

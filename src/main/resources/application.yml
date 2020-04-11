@@ -35,7 +35,8 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/questionnaire_survey?serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true
     username: root
-    password: password@R1120
+#    password: password@R1120
+    password: root
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
 logging:
