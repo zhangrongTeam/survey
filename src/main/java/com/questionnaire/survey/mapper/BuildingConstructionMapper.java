@@ -1,5 +1,6 @@
 package com.questionnaire.survey.mapper;
 
+import com.questionnaire.survey.controller.SurveySearchDTO;
 import com.questionnaire.survey.entity.BuildingConstruction;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,5 +19,5 @@ import java.util.List;
 @Mapper
 public interface BuildingConstructionMapper extends BaseMapper<BuildingConstruction> {
 
-    List<BuildingConstruction> selectByProjectId(@Param("projectId") String projectId);
+    List<BuildingConstruction> selectByProjectId(@Param("surveySearchDTO") SurveySearchDTO surveySearchDTO);
 }

@@ -42,10 +42,10 @@ public class SurveyController {
         return new ResponseEntity<>(surveyService.submitSurvey(addSurveyDTO), HttpStatus.OK);
     }
     //分类别 调研单列表查询（管理后台）根据项目id得到全部调研单列表并分类返回
-    @GetMapping(path = "/getSurveyListByProject/{projectId}")
+    @PostMapping(path = "/getSurveyListByProject")
     @ApiOperation("根据项目查找调研单列表")
-    public Map<String, List> getSurveyListByProject(@PathVariable("projectId") @Valid@NotBlank String projectId){
-        return surveyService.getSurveyListByProject(projectId);
+    public Map<String, List> getSurveyListByProject(@RequestBody SurveySearchDTO surveySearchDTO){
+        return surveyService.getSurveyListByProject(surveySearchDTO);
     }
 
     //调研单内容分类别导出（待定，看是导出选中值——前端传过来，还是导出全部）

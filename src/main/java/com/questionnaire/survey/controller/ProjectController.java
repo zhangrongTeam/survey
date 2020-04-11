@@ -2,6 +2,7 @@ package com.questionnaire.survey.controller;
 
 
 import com.questionnaire.survey.DTO.ProjectStatusDTO;
+import com.questionnaire.survey.DTO.SearchDTO;
 import com.questionnaire.survey.entity.Project;
 import com.questionnaire.survey.entity.User;
 import com.questionnaire.survey.service.ProjectService;
@@ -36,8 +37,8 @@ public class ProjectController {
     @PostMapping("/getCurrentProject")
     @ApiOperation("查询未删除项目列表")
     @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
-    public RestResult<List<Project>> getProjectList(){
-        return projectService.getProjectList();
+    public RestResult<List<Project>> getProjectList(@RequestBody SearchDTO searchDTO){
+        return projectService.getProjectList(searchDTO);
     }
 
     @PostMapping("/addProject")

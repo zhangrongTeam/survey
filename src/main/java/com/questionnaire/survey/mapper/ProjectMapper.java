@@ -1,5 +1,6 @@
 package com.questionnaire.survey.mapper;
 
+import com.questionnaire.survey.DTO.SearchDTO;
 import com.questionnaire.survey.entity.Project;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,7 +21,7 @@ import java.util.List;
 @Repository
 public interface ProjectMapper extends BaseMapper<Project> {
 
-    List<Project> getProjectList();
+    List<Project> getProjectList(@Param("searchDTO") SearchDTO searchDTO);
 
     String getStartingProjectId();
 

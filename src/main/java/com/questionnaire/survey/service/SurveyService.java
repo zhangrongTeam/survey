@@ -2,6 +2,7 @@ package com.questionnaire.survey.service;
 
 import com.questionnaire.survey.DTO.AddSurveyDTO;
 import com.questionnaire.survey.constant.ErrorCode;
+import com.questionnaire.survey.controller.SurveySearchDTO;
 import com.questionnaire.survey.entity.*;
 import com.questionnaire.survey.mapper.ProjectMapper;
 import com.questionnaire.survey.mapper.SurveyMapper;
@@ -158,11 +159,11 @@ public class SurveyService extends ServiceImpl<SurveyMapper, Survey> {
         return RestResult.success(true);
     }
 
-    public Map<String, List> getSurveyListByProject(String projectId) {
+    public Map<String, List> getSurveyListByProject(SurveySearchDTO surveySearchDTO) {
         Map<String, List> resultMap = new HashMap<>();
-        List<BuildingConstruction> buildingConstructions = buildingConstructionService.selectByProjectId(projectId);
-        List<WaterMeter> waterMeters = waterMeterService.selectByProjectId(projectId);
-        List<WaterSupplyNetwork> waterSupplyNetworks = waterSupplyNetworkService.selectByProjectId(projectId);
+        List<BuildingConstruction> buildingConstructions = buildingConstructionService.selectByProjectId(surveySearchDTO);
+        List<WaterMeter> waterMeters = waterMeterService.selectByProjectId(surveySearchDTO);
+        List<WaterSupplyNetwork> waterSupplyNetworks = waterSupplyNetworkService.selectByProjectId(surveySearchDTO);
         resultMap.put("building_construction", buildingConstructions);
         resultMap.put("water_supply_network",waterMeters);
         resultMap.put("water_meter",waterSupplyNetworks);

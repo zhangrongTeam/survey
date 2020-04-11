@@ -2,6 +2,7 @@ package com.questionnaire.survey.service;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.questionnaire.survey.DTO.ProjectStatusDTO;
+import com.questionnaire.survey.DTO.SearchDTO;
 import com.questionnaire.survey.constant.ErrorCode;
 import com.questionnaire.survey.constant.ProjectStatus;
 import com.questionnaire.survey.entity.Project;
@@ -37,11 +38,11 @@ public class ProjectService extends ServiceImpl<ProjectMapper, Project> {
     private SurveyService surveyService;
 
     //查询未删除项目列表（仅限管理员）
-    public RestResult<List<Project>> getProjectList() {
+    public RestResult<List<Project>> getProjectList(SearchDTO searchDTO) {
         if(!JwtUtil.isSuperUser()){
             return RestResult.fail(ErrorCode.USER_NOT_ENABLE);
         }
-        List<Project> projectList = projectMapper.getProjectList();
+        List<Project> projectList = projectMapper.getProjectList(searchDTO);
         return RestResult.success(projectList);
     }
 

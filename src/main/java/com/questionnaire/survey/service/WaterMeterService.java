@@ -1,5 +1,6 @@
 package com.questionnaire.survey.service;
 
+import com.questionnaire.survey.controller.SurveySearchDTO;
 import com.questionnaire.survey.entity.WaterMeter;
 import com.questionnaire.survey.mapper.WaterMeterMapper;
 import com.questionnaire.survey.service.WaterMeterService;
@@ -22,7 +23,7 @@ public class WaterMeterService extends ServiceImpl<WaterMeterMapper, WaterMeter>
 
     @Autowired
     private WaterMeterMapper waterMeterMapper;
-    public List<WaterMeter> selectByProjectId(String projectId) {
-        return waterMeterMapper.selectByProjectId(projectId);
+    public List<WaterMeter> selectByProjectId(SurveySearchDTO surveySearchDTO) {
+        return waterMeterMapper.selectByProjectId(surveySearchDTO);
     }
 }

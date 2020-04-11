@@ -19,7 +19,17 @@
     <select id="getProjectList" resultMap="BaseResultMap">
         select *
         from project
-        where del_flag = "0";
+        where del_flag = "0"
+        <if test="searchDTO.createStartTime!=null and searchDTO.createStartTime!='' and searchDTO.createEndTime !=null and searchDTO.createEndTime!=''">
+            and create_time &gt;= #{searchDTO.createStartTime} and create_time &lt;= #{searchDTO.createEndTime}
+        </if>
+        <if test="searchDTO.projectName!=null and searchDTO.projectName!=''">
+            and name like CONCAT('%',#{searchDTO.projectName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="searchDTO.projectStatus != null and searchDTO.projectStatus != ''">
+            and project_status = #{searchDTO.projectStatus}
+        </if>
+
     </select>
     <select id="getStartingProjectId" resultType="String">
         select id

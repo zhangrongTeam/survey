@@ -1,5 +1,6 @@
 package com.questionnaire.survey.service;
 
+import com.questionnaire.survey.controller.SurveySearchDTO;
 import com.questionnaire.survey.entity.BuildingConstruction;
 import com.questionnaire.survey.mapper.BuildingConstructionMapper;
 import com.questionnaire.survey.service.BuildingConstructionService;
@@ -23,7 +24,7 @@ public class BuildingConstructionService extends ServiceImpl<BuildingConstructio
     @Autowired
     private BuildingConstructionMapper buildingConstructionMapper;
 
-    public List<BuildingConstruction> selectByProjectId(String projectId) {
-        return buildingConstructionMapper.selectByProjectId(projectId);
+    public List<BuildingConstruction> selectByProjectId(SurveySearchDTO surveySearchDTO) {
+        return buildingConstructionMapper.selectByProjectId(surveySearchDTO);
     }
 }

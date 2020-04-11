@@ -1,5 +1,6 @@
 package com.questionnaire.survey.mapper;
 
+import com.questionnaire.survey.controller.SurveySearchDTO;
 import com.questionnaire.survey.entity.WaterMeter;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,5 +19,5 @@ import java.util.List;
 @Mapper
 public interface WaterMeterMapper extends BaseMapper<WaterMeter> {
 
-    List<WaterMeter> selectByProjectId(@Param("projectId") String projectId);
+    List<WaterMeter> selectByProjectId(@Param("surveySearchDTO") SurveySearchDTO surveySearchDTO);
 }
