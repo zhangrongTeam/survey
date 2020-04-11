@@ -65,6 +65,7 @@ public class UserService extends ServiceImpl<UserMapper, User>{
 
     public RestResult<User> wxAuthorize(String code) {
         User wxUser = new User();
+        LocalDateTime now = LocalDateTime.now();
         JSONObject userInfo = WechatUtils.getUserInfo(Wechat.APPID, Wechat.APPSECRET, code);
         String openid = userInfo.getString("openid");
         String unionid = userInfo.getString("unionid");
@@ -73,6 +74,7 @@ public class UserService extends ServiceImpl<UserMapper, User>{
         }
         wxUser.setOpenId(openid);
         wxUser.setUnionId(unionid);
+        wxUser.setLoginDate(now);
         wxUser.setUserType(UserType.USER.getTypeCode());
         User wx = userMapper.selectOneByOpenId(openid);
         if (wx == null) {
