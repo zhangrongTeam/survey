@@ -37,7 +37,6 @@ public class SysDictItemController {
     private SysDictItemService sysDictItemService;
     @PostMapping("/getMapByTypeCodeList")
     @ApiOperation("根据typeCodeList获取字典Map")
-    @ApiImplicitParam(name = "Authorization", value = "token", required = true, dataType = "string", paramType = "header")
     public ResponseEntity<RestResult<Map<String, List<SysDictItem>>>> getMapByTypeCodeList(@RequestBody CodeListDTO codeListDTO){
         return new ResponseEntity<>( sysDictItemService.getMapByTypeCodeList(codeListDTO.getTypeCodeList()), HttpStatus.OK);
     }
