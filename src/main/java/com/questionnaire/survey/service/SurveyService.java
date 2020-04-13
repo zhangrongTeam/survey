@@ -165,8 +165,8 @@ public class SurveyService extends ServiceImpl<SurveyMapper, Survey> {
         List<WaterMeter> waterMeters = waterMeterService.selectByProjectId(surveySearchDTO);
         List<WaterSupplyNetwork> waterSupplyNetworks = waterSupplyNetworkService.selectByProjectId(surveySearchDTO);
         resultMap.put("building_construction", buildingConstructions);
-        resultMap.put("water_supply_network",waterMeters);
-        resultMap.put("water_meter",waterSupplyNetworks);
+        resultMap.put("water_supply_network",waterSupplyNetworks);
+        resultMap.put("water_meter",waterMeters);
         return resultMap;
     }
 

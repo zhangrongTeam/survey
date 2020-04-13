@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,6 +24,7 @@ import java.time.LocalDateTime;
  */
 @TableName("water_meter")
 @Data
+@Accessors(chain = true)
 public class WaterMeter extends Model<WaterMeter> {
 
     @TableId
