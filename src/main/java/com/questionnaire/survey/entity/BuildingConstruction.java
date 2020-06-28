@@ -36,6 +36,11 @@ public class BuildingConstruction extends Model<BuildingConstruction> {
     @TableField("building_type")
     private String buildingType;
     /**
+     * 节水器数量
+     */
+    @TableField("water_saving_appliances")
+    private Integer waterSavingAppliances;
+    /**
      * 对应数据字典项value 楼宇所属区域
      */
     @TableField("building_region")
