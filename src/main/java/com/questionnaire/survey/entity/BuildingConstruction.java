@@ -31,10 +31,15 @@ public class BuildingConstruction extends Model<BuildingConstruction> {
     @TableField("survey_id")
     private String surveyId;
     /**
-     * 对应数据字典项id 建筑物类型
+     * 对应数据字典项value 建筑物类型
      */
     @TableField("building_type")
     private String buildingType;
+    /**
+     * 对应数据字典项value 楼宇所属区域
+     */
+    @TableField("building_region")
+    private String buildingRegion;
     /**
      * 楼宇名称
      */
